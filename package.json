@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "start": "bun run src/index.ts",
-    "build": "bun build --compile --outfile out/weather src/index.ts"
+    "test": "bun test --coverage",
+    "build": "bun test && bun build --compile --outfile out/weather src/index.ts"
   },
   "devDependencies": {
     "@types/bun": "latest"
