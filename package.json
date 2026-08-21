@@ -1,11 +1,11 @@
 {
   "name": "03-weather-with-open-code",
-  "module": "index.ts",
+  "module": "src/index.ts",
   "type": "module",
   "private": true,
   "scripts": {
-    "start": "bun run index.ts",
-    "build": "bun build --compile --outfile out/weather index.ts"
+    "start": "bun run src/index.ts",
+    "build": "bun build --compile --outfile out/weather src/index.ts"
   },
   "devDependencies": {
     "@types/bun": "latest"

@@ -1,11 +1,11 @@
 # AGENTS.md
 
-Weather CLI app (Bun + OpenMeteo). Bare scaffold: entrypoint is `index.ts`, currently just a `console.log`.
+Weather CLI app (Bun + OpenMeteo). Entrypoint is `src/index.ts`.
 
 ## Runtime & package manager
 
 - **Bun, not Node.** Use `bun` commands. Lockfile is `bun.lock`; never add `package-lock.json`.
-- No `scripts` are defined in `package.json` yet. Run the app with `bun run index.ts`.
+- Run the app with `bun run src/index.ts` (or `bun run start`). Build the binary with `bun run build`.
 - Typecheck: `bunx tsc --noEmit` (tsconfig has `noEmit: true`, so `tsc` never writes output).
 - No tests, linter, or formatter configured yet. Do not assume a test runner exists.
 
