@@ -12,6 +12,11 @@ function prompt(question: string): Promise<string> {
   return new Promise((resolve) => rl.question(question, resolve));
 }
 
+function cityLabel(city: City): string {
+  const region = city.administrationLevel1 ? `${city.administrationLevel1}, ` : "";
+  return `${city.name} — ${region}${city.country}`;
+}
+
 function printMenu(config: Config): void {
   console.log(cyan(BAR));
   console.log(cyan("         WEATHER CLI"));
@@ -28,7 +33,7 @@ function printMenu(config: Config): void {
 
 async function showcaseCity(city: City, config: Config): Promise<void> {
   const temp = await getCurrentTemperature(city, config.unit);
-  console.log(`  ${city.name}, ${city.country}: ${yellow(formatTemperature(temp, config.unit))}`);
+  console.log(`  ${cityLabel(city)}: ${yellow(formatTemperature(temp, config.unit))}`);
 }
 
 async function handleWeatherDefault(config: Config): Promise<void> {
@@ -60,17 +65,30 @@ async function handleAddCity(config: Config): Promise<Config> {
     console.log(red("  Operación cancelada."));
     return config;
   }
-  const city = await geocode(name);
-  if (!city) {
+  const candidates = await geocode(name);
+  if (candidates.length === 0) {
     console.log(red("  No se encontró la ciudad."));
     return config;
+  }
+  let city = candidates[0]!;
+  if (candidates.length > 1) {
+    candidates.forEach((candidate, i) =>
+      console.log(`  ${i + 1}. ${cityLabel(candidate)}`),
+    );
+    const answer = (await prompt("  Selecciona una opción: ")).trim();
+    const index = Number(answer) - 1;
+    if (!Number.isInteger(index) || index < 0 || index >= candidates.length) {
+      console.log(red("  Opción inválida."));
+      return config;
+    }
+    city = candidates[index]!;
   }
   if (config.cities.some((c) => c.name === city.name)) {
     console.log(`  ${city.name} ya está registrada.`);
     return config;
   }
   config.cities.push(city);
-  console.log(green(`  Se agregó ${city.name}, ${city.country}.`));
+  console.log(green(`  Se agregó ${cityLabel(city)}.`));
   return config;
 }
 
@@ -79,7 +97,7 @@ async function handleRemoveCity(config: Config): Promise<Config> {
     console.log("  No hay ciudades registradas.");
     return config;
   }
-  config.cities.forEach((city, i) => console.log(`  ${i + 1}. ${city.name}, ${city.country}`));
+  config.cities.forEach((city, i) => console.log(`  ${i + 1}. ${cityLabel(city)}`));
   const answer = (await prompt("  Número a eliminar: ")).trim();
   const index = Number(answer) - 1;
   if (!Number.isInteger(index) || index < 0 || index >= config.cities.length) {
@@ -100,7 +118,7 @@ async function handleSetDefault(config: Config): Promise<Config> {
     console.log("  No hay ciudades registradas.");
     return config;
   }
-  config.cities.forEach((city, i) => console.log(`  ${i + 1}. ${city.name}, ${city.country}`));
+  config.cities.forEach((city, i) => console.log(`  ${i + 1}. ${cityLabel(city)}`));
   const answer = (await prompt("  Número a establecer como default: ")).trim();
   const index = Number(answer) - 1;
   if (!Number.isInteger(index) || index < 0 || index >= config.cities.length) {
