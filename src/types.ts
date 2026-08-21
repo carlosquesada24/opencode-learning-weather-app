@@ -13,3 +13,10 @@ export interface Config {
   cities: City[];
   unit: TemperatureUnit;
 }
+
+export interface DailyForecast {
+  date: string;
+  tempMax: number;
+  tempMin: number;
+  weatherCode: number;
+}

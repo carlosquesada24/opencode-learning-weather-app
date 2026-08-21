@@ -1,7 +1,7 @@
 import { createInterface } from "node:readline";
 import { loadConfig, saveConfig } from "./src/storage.ts";
 import { geocode } from "./src/geocoding.ts";
-import { formatTemperature, getCurrentTemperature } from "./src/weather.ts";
+import { formatTemperature, getCurrentTemperature, getDailyForecast, formatForecastDay } from "./src/weather.ts";
 import { cyan, green, red, yellow } from "./src/color.ts";
 import type { City, Config } from "./src/types.ts";
 
@@ -26,6 +26,7 @@ function printMenu(config: Config): void {
   console.log(cyan("  3. Buscar y agregar ciudad"));
   console.log(cyan("  4. Eliminar ciudad"));
   console.log(cyan("  5. Establecer ciudad default"));
+  console.log(cyan("  6. Pronóstico 7 días"));
   console.log(cyan(`  8. Ajustes (°${config.unit === "C" ? "C" : "F"})`));
   console.log(cyan("  9. Salir"));
   console.log(cyan(BAR));
@@ -113,6 +114,26 @@ async function handleRemoveCity(config: Config): Promise<Config> {
   return config;
 }
 
+async function handleForecast(config: Config): Promise<void> {
+  if (config.cities.length === 0) {
+    console.log("  No hay ciudades registradas.");
+    return;
+  }
+  config.cities.forEach((city, i) => console.log(`  ${i + 1}. ${cityLabel(city)}`));
+  const answer = (await prompt("  Número de la ciudad a consultar: ")).trim();
+  const index = Number(answer) - 1;
+  if (!Number.isInteger(index) || index < 0 || index >= config.cities.length) {
+    console.log(red("  Opción inválida."));
+    return;
+  }
+  const city = config.cities[index]!;
+  const forecast = await getDailyForecast(city, config.unit);
+  console.log(yellow(`  Pronóstico 7 días — ${cityLabel(city)}`));
+  for (const day of forecast) {
+    console.log(`  ${yellow(formatForecastDay(day, config.unit))}`);
+  }
+}
+
 async function handleSetDefault(config: Config): Promise<Config> {
   if (config.cities.length === 0) {
     console.log("  No hay ciudades registradas.");
@@ -161,6 +182,9 @@ async function main(): Promise<void> {
           break;
         case "5":
           config = await handleSetDefault(config);
+          break;
+        case "6":
+          await handleForecast(config);
           break;
         case "8":
           config = handleToggleUnit(config);
