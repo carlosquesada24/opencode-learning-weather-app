@@ -1,6 +1,9 @@
 # dependencies (bun install)
 node_modules
 
+# runtime persistence
+data.json
+
 # output
 out
 dist

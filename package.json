@@ -3,6 +3,10 @@
   "module": "index.ts",
   "type": "module",
   "private": true,
+  "scripts": {
+    "start": "bun run index.ts",
+    "build": "bun build --compile --outfile out/weather index.ts"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
