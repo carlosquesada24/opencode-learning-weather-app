@@ -1,6 +1,6 @@
 {
   "name": "03-weather-with-open-code",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "module": "src/index.ts",
   "type": "module",
   "private": true,
