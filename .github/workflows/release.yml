@@ -25,6 +25,8 @@ jobs:
           VERSION=$(bun -e "process.stdout.write(require('./package.json').version)")
           echo "tag=v${VERSION}" >> "$GITHUB_OUTPUT"
       - name: Crear tag y release
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           TAG="${{ steps.version.outputs.tag }}"
           if gh release view "$TAG" >/dev/null 2>&1; then
@@ -64,5 +66,7 @@ jobs:
             echo "path=out/weather" >> "$GITHUB_OUTPUT"
           fi
       - name: Subir asset
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           gh release upload "$TAG" "${{ steps.bin.outputs.path }}#${{ matrix.asset }}" --clobber
