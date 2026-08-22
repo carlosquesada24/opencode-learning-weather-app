@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, mock } from "bun:test";
-import type { City } from "../src/types/City.ts";
-import type { TemperatureUnit } from "../src/types/Config.ts";
+import type { City } from "../../src/types/City.ts";
+import type { TemperatureUnit } from "../../src/types/Config.ts";
 
 const files = new Map<string, string>();
 mock.module("node:fs", () => ({
@@ -11,7 +11,7 @@ mock.module("node:fs", () => ({
   },
 }));
 
-import { loadSettings, saveSettings } from "../src/storage/settingsStorage.ts";
+import { loadSettings, saveSettings } from "../../src/storage/settingsStorage.ts";
 
 const roma: City = {
   name: "Roma",

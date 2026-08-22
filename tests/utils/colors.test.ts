@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { cyan, yellow, green, red } from "../src/utils/colors.ts";
+import { cyan, yellow, green, red } from "../../src/utils/colors.ts";
 
 describe("colors", () => {
   it("envolver en cyan", () => {

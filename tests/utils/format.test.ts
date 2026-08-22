@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { formatTemperature, weatherCodeLabel, formatForecastDay } from "../src/utils/format.ts";
+import { formatTemperature, weatherCodeLabel, formatForecastDay } from "../../src/utils/format.ts";
 
 describe("formatTemperature", () => {
   it("formatea con grados Celsius", () => {

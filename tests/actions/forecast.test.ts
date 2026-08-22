@@ -1,7 +1,7 @@
 import { beforeEach, afterEach, describe, expect, it, mock } from "bun:test";
-import { forecast } from "../src/actions/forecast.ts";
-import type { City } from "../src/types/City.ts";
-import type { Config } from "../src/types/Config.ts";
+import { forecast } from "../../src/actions/forecast.ts";
+import type { City } from "../../src/types/City.ts";
+import type { Config } from "../../src/types/Config.ts";
 import { captureLogs, mockFetch, type LogCapture } from "./helpers.ts";
 
 const askIndexMock = mock(async () => 0 as number | null);

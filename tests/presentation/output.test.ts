@@ -9,8 +9,8 @@ import {
   weatherCity,
   forecastTitle,
   forecastDay,
-} from "../src/presentation/output.ts";
-import type { City } from "../src/types/City.ts";
+} from "../../src/presentation/output.ts";
+import type { City } from "../../src/types/City.ts";
 import { captureLogs, type LogCapture } from "./helpers.ts";
 
 const roma: City = {

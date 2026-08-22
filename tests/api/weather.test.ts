@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it } from "bun:test";
-import { getCurrentTemperature, getDailyForecast } from "../src/api/weather.ts";
-import type { City } from "../src/types/City.ts";
-import type { DailyForecast } from "../src/types/Weather.ts";
+import { getCurrentTemperature, getDailyForecast } from "../../src/api/weather.ts";
+import type { City } from "../../src/types/City.ts";
+import type { DailyForecast } from "../../src/types/Weather.ts";
 import { mockFetch } from "./helpers.ts";
 
 const roma: City = {

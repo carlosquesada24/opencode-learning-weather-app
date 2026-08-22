@@ -1,6 +1,6 @@
 import { beforeEach, afterEach, describe, expect, it } from "bun:test";
-import { toggleUnit } from "../src/actions/settings.ts";
-import type { Config } from "../src/types/Config.ts";
+import { toggleUnit } from "../../src/actions/settings.ts";
+import type { Config } from "../../src/types/Config.ts";
 import { captureLogs, type LogCapture } from "./helpers.ts";
 
 let cap: LogCapture;
