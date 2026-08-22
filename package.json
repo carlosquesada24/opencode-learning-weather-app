@@ -6,7 +6,7 @@
   "scripts": {
     "start": "bun run src/index.ts",
     "test": "bun test --coverage",
-    "build": "bun test && bun build --compile --outfile out/weather src/index.ts"
+    "build": "bun test && bun build --compile src/index.ts --outfile out/weather"
   },
   "devDependencies": {
     "@types/bun": "latest"
