@@ -1,0 +1,68 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+    paths: [package.json]
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.version.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Calcular versión
+        id: version
+        run: |
+          VERSION=$(bun -e "process.stdout.write(require('./package.json').version)")
+          echo "tag=v${VERSION}" >> "$GITHUB_OUTPUT"
+      - name: Crear tag y release
+        run: |
+          TAG="${{ steps.version.outputs.tag }}"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG ya existe, se omite."
+            exit 0
+          fi
+          gh release create "$TAG" --generate-notes --title "$TAG"
+
+  build:
+    needs: release
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            asset: weather-linux-x64
+          - os: macos-latest
+            asset: weather-darwin-arm64
+          - os: windows-latest
+            asset: weather-windows-x64.exe
+    env:
+      TAG: ${{ needs.release.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Construir binario
+        run: bun run build
+      - name: Localizar binario
+        id: bin
+        run: |
+          if [ "$RUNNER_OS" = "Windows" ]; then
+            FILE=$(cd out && ls *.exe | head -n1)
+            echo "path=out/$FILE" >> "$GITHUB_OUTPUT"
+          else
+            echo "path=out/weather" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Subir asset
+        run: |
+          gh release upload "$TAG" "${{ steps.bin.outputs.path }}#${{ matrix.asset }}" --clobber
