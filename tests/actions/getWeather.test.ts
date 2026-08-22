@@ -2,7 +2,7 @@ import { beforeEach, afterEach, describe, expect, it } from "bun:test";
 import { showCityWeather, getWeatherDefault, getWeatherAll } from "../../src/actions/getWeather.ts";
 import type { City } from "../../src/types/City.ts";
 import type { Config } from "../../src/types/Config.ts";
-import { captureLogs, mockFetch, type LogCapture } from "./helpers.ts";
+import { captureLogs, mockFetch, type LogCapture } from "../helpers.ts";
 
 const roma: City = {
   name: "Roma",

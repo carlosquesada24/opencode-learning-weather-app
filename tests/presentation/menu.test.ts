@@ -3,7 +3,7 @@ import { menuOptions, printMenu } from "../../src/presentation/menu.ts";
 import { cyan } from "../../src/utils/colors.ts";
 import { APP_TITLE, BAR } from "../../src/utils/constants.ts";
 import type { Config } from "../../src/types/Config.ts";
-import { captureLogs, type LogCapture } from "./helpers.ts";
+import { captureLogs, type LogCapture } from "../helpers.ts";
 
 const baseConfig: Config = {
   defaultCity: "Roma",

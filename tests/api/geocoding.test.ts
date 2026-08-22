@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from "bun:test";
 import { geocode } from "../../src/api/geocoding.ts";
-import { mockFetch } from "./helpers.ts";
+import { mockFetch } from "../helpers.ts";
 
 let fetchState: ReturnType<typeof mockFetch>;
 

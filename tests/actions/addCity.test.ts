@@ -2,12 +2,11 @@ import { beforeEach, afterEach, describe, expect, it, mock } from "bun:test";
 import { addCity } from "../../src/actions/addCity.ts";
 import type { City } from "../../src/types/City.ts";
 import type { Config } from "../../src/types/Config.ts";
-// import { captureLogs, mockFetch, type LogCapture } from "./helpers.ts";
 import { captureLogs, mockFetch, type LogCapture } from "../helpers.ts";
 
 const promptMock = mock(async () => "Roma");
 const askIndexMock = mock(async () => 0 as number | null);
-mock.module("../src/presentation/input.ts", () => ({
+mock.module("../../src/presentation/input.ts", () => ({
   prompt: promptMock,
   askIndex: askIndexMock,
 }));
